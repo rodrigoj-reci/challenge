@@ -16,14 +16,13 @@ const useSpecies = () => {
           data: {species: speciesUrls},
         } = await axios.get(API_URL);
 
-        const speciesPromises = await Promise.all(
-          speciesUrls.map(async url => {
-            const {data} = await axios.get(url);
-            return data;
-          })
-        );
-        const species = Promise.all(speciesPromises);
-        const speciesData = await species;
+        const speciesPromises = speciesUrls.map(async url => {
+          const {data} = await axios.get(url);
+          return data;
+        });
+
+        const speciesData = await Promise.all(speciesPromises);
+
         setSpecies({
           loading: false,
           error: null,
